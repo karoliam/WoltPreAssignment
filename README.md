@@ -1,6 +1,8 @@
 <h3>Author</h3>
 <p>Karoliina Multas</p>
 
+<img alt="img.png" src="img.png" title="screenshot"/>
+
 <h3>Introduction</h3>
 <p>
 This is a pre-assignment for the Wolt Summer 2023 Engineering Internships position.
