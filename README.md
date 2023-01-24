@@ -1,8 +1,9 @@
 <h3>Author</h3>
 <p>Karoliina Multas</p>
-<img src="screenshot.png" alt="screenshot" width="100" height="200">
+
 
 <h3>Introduction</h3>
+<img src="screenshot.png" alt="screenshot" width="100" height="200">
 <p>
 This is a pre-assignment for the Wolt Summer 2023 Engineering Internships position.
 The application uses Wolt API and the user's current location to show 15 venues nearby.
