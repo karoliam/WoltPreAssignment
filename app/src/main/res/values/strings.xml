@@ -2,7 +2,7 @@
     <string name="app_name">WoltPreAssignment</string>
     <string name="failed_to_load">It seems that you are not connected to the internet.</string>
     <string name="loading">Loading...</string>
-    <string name="restaurant_image">restaurant image</string>
+    <string name="venue_image">venue image</string>
     <string name="favourite_button">Favourite button</string>
     <string name="new_venues">New venues</string>
     <string name="oops">Oops...</string>

@@ -30,38 +30,45 @@ import java.net.URL
 
 @Composable
 fun HomeScreen(
-    restaurantUiState: RestaurantUiState,
+    venuesUiState: VenuesUiState,
     modifier: Modifier = Modifier,
     sharedPreferences: SharedPreferences
 ) {
-    when (restaurantUiState) {
-        is RestaurantUiState.Loading -> LoadingScreen(modifier)
-        is RestaurantUiState.Success -> ResultScreen(restaurantUiState.restaurants, sharedPreferences)
-        is RestaurantUiState.Error -> ErrorScreen(modifier)
+    when (venuesUiState) {
+        is VenuesUiState.Loading -> LoadingScreen(modifier)
+        is VenuesUiState.Success -> ResultScreen(
+            venuesUiState.venues,
+            sharedPreferences
+        )
+        is VenuesUiState.Error -> ErrorScreen(modifier)
     }
 }
+
 // When app is loading data
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize()) {
+        modifier = modifier.fillMaxSize()
+    ) {
 
-            Text(stringResource(R.string.loading),
-            style = MaterialTheme.typography.titleMedium,)
+        Text(
+            stringResource(R.string.loading),
+            style = MaterialTheme.typography.titleMedium,
+        )
     }
-
 }
+
 // If there's no internet connection
 @Composable
 fun ErrorScreen(modifier: Modifier = Modifier) {
 
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier.fillMaxSize()
-            ) {
-            Text(
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.fillMaxSize()
+    ) {
+        Text(
             text = stringResource(R.string.oops),
             style = MaterialTheme.typography.titleLarge,
             modifier = modifier
@@ -77,42 +84,43 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
         )
     }
 
-    }
+}
 
 // No location permission granted
 @Composable
 fun NoPermission() {
-Column(modifier = Modifier.fillMaxSize(),
-    horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center
-) {
-    Text(
-        text = stringResource(R.string.oops),
-        style = MaterialTheme.typography.titleLarge,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 40.dp, end = 40.dp)
-    )
-    Text(
-        text = stringResource(R.string.need_location),
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 40.dp, end = 40.dp)
-    )
-}
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = stringResource(R.string.oops),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 40.dp, end = 40.dp)
+        )
+        Text(
+            text = stringResource(R.string.need_location),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 40.dp, end = 40.dp)
+        )
+    }
 
 }
 
 @Composable
 fun ShowImage(urlText: URL) {
-    var savedBitmap by remember { mutableStateOf(Bitmap.createBitmap(1,1,Bitmap.Config.ALPHA_8)) }
+    var savedBitmap by remember { mutableStateOf(Bitmap.createBitmap(1, 1, Bitmap.Config.ALPHA_8)) }
     LaunchedEffect(urlText) {
         savedBitmap = getImage(urlText)
     }
     Image(
         bitmap = savedBitmap.asImageBitmap(),
-        contentDescription = stringResource(R.string.restaurant_image),
+        contentDescription = stringResource(R.string.venue_image),
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
@@ -133,7 +141,7 @@ private suspend fun getImage(url: URL): Bitmap =
 @Composable
 fun FavoriteButton(modifier: Modifier, sharedPreferences: SharedPreferences, buttonId: String) {
 
-    fun isIconClicked(id: String) : Boolean{
+    fun isIconClicked(id: String): Boolean {
         return sharedPreferences.getBoolean(id, false)
     }
 
@@ -146,9 +154,6 @@ fun FavoriteButton(modifier: Modifier, sharedPreferences: SharedPreferences, but
             sharedPreferences.edit().putBoolean(buttonId, isFavorite).apply()
         }
     ) {
-
-
-
         Icon(
             contentDescription = stringResource(R.string.favourite_button),
             tint = MaterialTheme.colorScheme.secondary,
@@ -160,20 +165,20 @@ fun FavoriteButton(modifier: Modifier, sharedPreferences: SharedPreferences, but
             },
         )
     }
-
 }
 
 // Main screen if internet connection and permissions are in order
 @Composable
-fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: SharedPreferences) {
-    val filteredItems = restaurantUiState.filterNotNull().flatten()
-    val notNullRestaurants = filteredItems.filter { item -> item.venue?.name !== null }
+fun ResultScreen(venueUiState: List<List<Item>?>, sharedPreferences: SharedPreferences) {
+    val filteredItems = venueUiState.filterNotNull().flatten()
+    val notNullVenues = filteredItems.filter { item -> item.venue?.name !== null }
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
         Surface(color = colorResource(R.color.white)) {
             Column {
+                // Title
                 Text(
                     text = stringResource(R.string.new_venues),
                     style = MaterialTheme.typography.titleLarge,
@@ -182,9 +187,9 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp)
                 )
-
+                // List of venues
                 LazyColumn {
-                    items(notNullRestaurants.take(15)) { section ->
+                    items(notNullVenues.take(15)) { items ->
                         Card(
                             colors = CardDefaults.cardColors(
                                 containerColor = colorResource(R.color.white)
@@ -194,17 +199,17 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                                 .fillMaxSize()
                         ) {
                             Row {
-                                val stringUrl = URL(section.image.url)
+                                // Image
+                                val stringUrl = URL(items.image.url)
                                 ShowImage(urlText = stringUrl)
                                 Column {
-
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Center
                                     ) {
-
                                         Column(modifier = Modifier.weight(1f)) {
-                                            section.venue?.let {
+                                            // Venue name
+                                            items.venue?.let {
                                                 Text(
                                                     text = it.name,
                                                     style = MaterialTheme.typography.titleSmall,
@@ -213,8 +218,8 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                                                         .padding(top = 25.dp, start = 16.dp)
                                                 )
                                             }
-
-                                            section.venue?.let {
+                                            // Short description
+                                            items.venue?.let {
                                                 Text(
                                                     text = it.shortDescription,
                                                     color = colorResource(R.color.text_black),
@@ -224,7 +229,8 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                                                 )
                                             }
                                         }
-                                        section.venue?.let {
+                                        // Favorite button
+                                        items.venue?.let {
                                             FavoriteButton(
                                                 modifier = Modifier
                                                     .size(24.dp, 21.01.dp)
@@ -234,7 +240,6 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                                                 buttonId = it.id
                                             )
                                         }
-
                                     }
                                     Divider(
                                         color = colorResource(R.color.divider),
@@ -243,22 +248,13 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                                             .fillMaxWidth()
                                     )
                                 }
-
                             }
-
                         }
-
-
                     }
-
-
                 }
             }
-
-
         }
     }
-
 }
 
 

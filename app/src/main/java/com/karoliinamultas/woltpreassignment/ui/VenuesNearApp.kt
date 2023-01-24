@@ -5,13 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karoliinamultas.woltpreassignment.ui.screens.HomeScreen
-import com.karoliinamultas.woltpreassignment.ui.screens.RestaurantViewModel
+import com.karoliinamultas.woltpreassignment.ui.screens.VenueViewModel
 
 @Composable
-fun RestaurantsNearApp(sharedPreferences: SharedPreferences) {
-    val restaurantViewModel: RestaurantViewModel = viewModel()
+fun VenuesNearApp(sharedPreferences: SharedPreferences) {
+    val venueViewModel: VenueViewModel = viewModel()
     HomeScreen(
-        restaurantUiState = restaurantViewModel.restaurantUiState,
+        venuesUiState = venueViewModel.venuesUiState,
         modifier = Modifier,
         sharedPreferences
     )

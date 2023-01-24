@@ -1,7 +1,7 @@
 package com.karoliinamultas.woltpreassignment.data.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.karoliinamultas.woltpreassignment.data.model.RestaurantData
+import com.karoliinamultas.woltpreassignment.data.model.VenueData
 import kotlinx.serialization.ExperimentalSerializationApi
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -24,15 +24,14 @@ val retrofit: Retrofit = Retrofit.Builder()
     .build()
 
 
-interface RestaurantApiService {
-
+interface VenueApiService {
     @GET("v1/pages/restaurants")
-    suspend fun getRestaurants(@Query("lat") latitudeParam: String, @Query("lon") longitudeParam: String): RestaurantData
+    suspend fun getVenues(@Query("lat") latitudeParam: String, @Query("lon") longitudeParam: String): VenueData
 }
 
 
-object RestaurantApi {
-    val retrofitService : RestaurantApiService by lazy {
-        retrofit.create(RestaurantApiService::class.java)
+object VenueApi {
+    val retrofitService : VenueApiService by lazy {
+        retrofit.create(VenueApiService::class.java)
     }
 }

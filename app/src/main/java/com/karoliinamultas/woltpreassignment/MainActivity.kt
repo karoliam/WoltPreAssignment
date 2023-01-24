@@ -11,20 +11,19 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.karoliinamultas.woltpreassignment.ui.RestaurantsNearApp
+import com.karoliinamultas.woltpreassignment.ui.VenuesNearApp
 import com.karoliinamultas.woltpreassignment.ui.screens.LocationViewModel
 import com.karoliinamultas.woltpreassignment.ui.screens.NoPermission
-import com.karoliinamultas.woltpreassignment.ui.screens.RestaurantViewModel
+import com.karoliinamultas.woltpreassignment.ui.screens.VenueViewModel
 import com.karoliinamultas.woltpreassignment.ui.theme.WoltPreAssignmentTheme
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
 class MainActivity : ComponentActivity(), EasyPermissions.PermissionCallbacks {
 
-    private lateinit var restaurantViewModel: RestaurantViewModel
+    private lateinit var venueViewModel: VenueViewModel
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private var REQUEST_CODE = 1
@@ -36,7 +35,7 @@ class MainActivity : ComponentActivity(), EasyPermissions.PermissionCallbacks {
 
         // ViewModels
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-        restaurantViewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
+        venueViewModel = ViewModelProvider(this).get(VenueViewModel::class.java)
 
         sharedPreferences = getSharedPreferences("favourites", Context.MODE_PRIVATE)
         // showing HomeScreen if location permission is granted
@@ -93,13 +92,13 @@ class MainActivity : ComponentActivity(), EasyPermissions.PermissionCallbacks {
                 val currentLocation by locationViewModel.getLocationLiveData().observeAsState()
 
                 if (currentLocation != null) {
-                    restaurantViewModel.getRestaurants(
+                    venueViewModel.getVenues(
                         currentLocation!!.latitude,
                         currentLocation!!.longitude
                     )
                 }
                 WoltPreAssignmentTheme {
-                    RestaurantsNearApp(sharedPreferences)
+                    VenuesNearApp(sharedPreferences)
                 }
             }
         }
