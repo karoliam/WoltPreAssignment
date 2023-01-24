@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">WoltPreAssignment</string>
-    <string name="failed_to_load">Failed to load</string>
+    <string name="failed_to_load">It seems that you are not connected to the internet.</string>
     <string name="loading">Loading...</string>
     <string name="restaurant_image">restaurant image</string>
     <string name="favourite_button">Favourite button</string>
     <string name="new_venues">New venues</string>
+    <string name="oops">Oops...</string>
+    <string name="give_permission">It seems that you need to give a permission to use your location.</string>
 </resources>

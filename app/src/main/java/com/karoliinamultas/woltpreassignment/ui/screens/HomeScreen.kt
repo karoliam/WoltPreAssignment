@@ -16,16 +16,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.karoliinamultas.woltpreassignment.R
 import com.karoliinamultas.woltpreassignment.data.model.Item
 import kotlinx.coroutines.Dispatchers
@@ -48,30 +43,66 @@ fun HomeScreen(
 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
-    Column {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = modifier.fillMaxSize()
-        ) {
-            Text(stringResource(R.string.loading))
-        }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize()) {
+
+            Text(stringResource(R.string.loading),
+            style = MaterialTheme.typography.titleMedium,)
     }
 
 }
 
 @Composable
 fun ErrorScreen(modifier: Modifier = Modifier) {
-    Column{
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = modifier.fillMaxSize()
-        ) {
-            Text(stringResource(R.string.failed_to_load))
-        }
+
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier.fillMaxSize()
+            ) {
+            Text(
+            text = stringResource(R.string.oops),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 40.dp, end = 40.dp)
+        )
+        Text(
+            text = stringResource(R.string.failed_to_load),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 40.dp, end = 40.dp)
+        )
     }
 
+    }
+
+
+@Composable
+fun NoPermission() {
+Column(modifier = Modifier.fillMaxSize(),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center
+) {
+    Text(
+        text = stringResource(R.string.oops),
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 40.dp, end = 40.dp)
+    )
+    Text(
+        text = stringResource(R.string.give_permission),
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 40.dp, end = 40.dp)
+    )
 }
 
+}
 
 @Composable
 fun ShowImage(urlText: URL) {
@@ -95,8 +126,7 @@ fun ShowImage(urlText: URL) {
 private suspend fun getImage(url: URL): Bitmap =
     withContext(Dispatchers.IO) {
         val myConn = url.openStream()
-        val bit = BitmapFactory.decodeStream(myConn);
-        return@withContext bit
+        return@withContext BitmapFactory.decodeStream(myConn)
     }
 
 
@@ -142,7 +172,7 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
         modifier = Modifier.fillMaxSize()
     ) {
         Surface(color = colorResource(R.color.white)) {
-            Column() {
+            Column {
                 Text(
                     text = stringResource(R.string.new_venues),
                     style = MaterialTheme.typography.titleLarge,
@@ -152,7 +182,7 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp)
                 )
 
-                LazyColumn() {
+                LazyColumn {
                     items(notNullRestaurants.take(15)) { section ->
                         Card(
                             colors = CardDefaults.cardColors(
@@ -162,7 +192,7 @@ fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: Shared
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            Row() {
+                            Row {
                                 val stringUrl = URL(section.image.url)
                                 ShowImage(urlText = stringUrl)
                                 Column {
