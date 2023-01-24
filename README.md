@@ -1,7 +1,6 @@
 <h3>Author</h3>
 <p>Karoliina Multas</p>
-
-<img alt="img.png" src="img.png" title="screenshot"/>
+<img src="screenshot.png" alt="screenshot" width="100" height="200">
 
 <h3>Introduction</h3>
 <p>
