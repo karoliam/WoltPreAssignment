@@ -40,7 +40,7 @@ fun HomeScreen(
         is RestaurantUiState.Error -> ErrorScreen(modifier)
     }
 }
-
+// When app is loading data
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
@@ -52,7 +52,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
     }
 
 }
-
+// If there's no internet connection
 @Composable
 fun ErrorScreen(modifier: Modifier = Modifier) {
 
@@ -79,7 +79,7 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
 
     }
 
-
+// No location permission granted
 @Composable
 fun NoPermission() {
 Column(modifier = Modifier.fillMaxSize(),
@@ -94,7 +94,7 @@ Column(modifier = Modifier.fillMaxSize(),
             .padding(start = 40.dp, end = 40.dp)
     )
     Text(
-        text = stringResource(R.string.give_permission),
+        text = stringResource(R.string.need_location),
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier
             .fillMaxWidth()
@@ -163,6 +163,7 @@ fun FavoriteButton(modifier: Modifier, sharedPreferences: SharedPreferences, but
 
 }
 
+// Main screen if internet connection and permissions are in order
 @Composable
 fun ResultScreen(restaurantUiState: List<List<Item>?>, sharedPreferences: SharedPreferences) {
     val filteredItems = restaurantUiState.filterNotNull().flatten()

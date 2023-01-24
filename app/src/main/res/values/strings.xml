@@ -6,5 +6,5 @@
     <string name="favourite_button">Favourite button</string>
     <string name="new_venues">New venues</string>
     <string name="oops">Oops...</string>
-    <string name="give_permission">It seems that you need to give a permission to use your location.</string>
+    <string name="need_location">This app needs permission to use your location to function correctly.</string>
 </resources>

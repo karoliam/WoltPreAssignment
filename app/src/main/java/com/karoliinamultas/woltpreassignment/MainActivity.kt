@@ -11,6 +11,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.karoliinamultas.woltpreassignment.ui.RestaurantsNearApp
@@ -33,15 +34,17 @@ class MainActivity : ComponentActivity(), EasyPermissions.PermissionCallbacks {
 
         super.onCreate(savedInstanceState)
 
+        // ViewModels
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         restaurantViewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
-        sharedPreferences = getSharedPreferences("favourites", Context.MODE_PRIVATE)
 
+        sharedPreferences = getSharedPreferences("favourites", Context.MODE_PRIVATE)
+        // showing HomeScreen if location permission is granted
             setView()
             requestLocationPermission()
-
         }
 
+    // Location permission result
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -56,21 +59,27 @@ class MainActivity : ComponentActivity(), EasyPermissions.PermissionCallbacks {
 
     private fun requestLocationPermission() {
         EasyPermissions.requestPermissions(this,
-            "This application needs to access your location to function correctly.",
+            getString(R.string.need_location),
             REQUEST_CODE, ACCESS_FINE_LOCATION)
     }
-
+    // Show NoPermission screen if location permission is denied
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if(EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             SettingsDialog.Builder(this)
+            setContent{
+                WoltPreAssignmentTheme() {
+                    NoPermission()
+                }
+            }
         } else {
             requestLocationPermission()
         }
     }
-
+    // Show home page if location permission is granted
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         setView()
     }
+
     private fun setView() {
         setContent {
             if (hasLocationPermission()) {
@@ -91,10 +100,6 @@ class MainActivity : ComponentActivity(), EasyPermissions.PermissionCallbacks {
                 }
                 WoltPreAssignmentTheme {
                     RestaurantsNearApp(sharedPreferences)
-                }
-            } else {
-                WoltPreAssignmentTheme() {
-                    NoPermission()
                 }
             }
         }
