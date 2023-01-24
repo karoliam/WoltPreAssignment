@@ -1,22 +1,22 @@
-##Author
+## Author
 Karoliina Multas
 
 
-##Introduction
+## Introduction
 This is a pre-assignment for the Wolt Summer 2023 Engineering Internships position.
-####Features
+#### Features
  The application uses Wolt API together with the user's current location to show a maximum of 15 venues nearby. When the application is opened for the first time, it will ask permission to use the device location information. It then applies the latitude and longitude to the URL parameters and fetches the nearest venues. Each venue has a favorite button, and they work as a toggle. If the application is closed and reopened again, it remembers the ones that are marked as favorites.
-####Language and libraries
+#### Language and libraries
 The application is written in Kotlin and uses Android Jetpack Compose toolkit. It also uses Retrofit and Kotlinx Serialization libraries for handling HTTP requests. 
 
 ![title](app/src/main/res/drawable/screenshot.png)
 
-##What do you need
+## What do you need
 - Android Studio
 - Working internet connection
 - Android device or an emulator
 
-##How to use
+## How to use
 - Open the project in Android Studio
 - If you are using an emulator, go to the Extended Controls and set the device location somewhere in Helsinki.
 - Build the project and run it.
