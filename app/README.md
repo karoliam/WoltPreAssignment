@@ -5,7 +5,7 @@
 <p>
 This is a pre-assignment for the Wolt Summer 2023 Engineering Internships position.
 The application uses Wolt API and the user's current location to show 15 venues nearby.
-When the application is opened the first time, it will ask permission to use the device location information. It then applies
+When the application is opened the for first time, it will ask permission to use the device location information. It then applies
 the latitude and longitude to the URL parameters, and fetches the nearest venues.
 Each venue has a favorite button, and they work as a toggle. If the application is closed and reopened again,
 it remembers the ones that are marked as favorites. </p>
